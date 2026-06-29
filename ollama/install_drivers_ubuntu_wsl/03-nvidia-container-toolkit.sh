@@ -59,7 +59,7 @@ echo "[*] Vérification du runtime Nvidia dans Docker..."
 docker info | grep -i nvidia || echo "[warn] Runtime Nvidia non visible dans docker info — vérifier manuellement."
 
 echo "[ok] NVIDIA Container Toolkit installé et Docker configuré."
-echo "     Testez avec : docker run --rm --gpus all nvidia/cuda:12.0-base-ubuntu22.04 nvidia-smi"
+echo "     Testez avec : docker run --rm --gpus all nvidia/cuda:12.0.0-base-ubuntu20.04 nvidia-smi"
 exit 0
 
 ## REM on protected environment wsl:
