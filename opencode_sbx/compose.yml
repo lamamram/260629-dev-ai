@@ -1,0 +1,26 @@
+services:
+  opencode:
+    build:
+      context: .
+    image: oc-uv
+    init: true
+    working_dir: /work
+    environment:
+      UV_PROJECT_ENVIRONMENT: /home/node/venv
+    volumes:
+      - ./workspace:/work
+      - oc-venv:/home/node/venv
+      - oc-uvcache:/home/node/.cache/uv
+      - ./oc-config/opencode:/home/node/.config/opencode
+      - ~/.local/share/opencode:/home/node/.local/share/opencode
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    mem_limit: 8g
+    cpus: 4
+
+volumes:
+  oc-venv:
+  oc-uvcache:
+      

