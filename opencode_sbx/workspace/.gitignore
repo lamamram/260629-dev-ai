@@ -18,7 +18,8 @@ wheels/
 core.*
 
 # Environment files
-.env.local
+.env.*
+!.env.schema
 
 # Generated files
 env.d.ts

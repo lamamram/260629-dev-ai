@@ -7,5 +7,19 @@
       "enabled": true
     }
   },
-  "plugin": ["opencode-beads"]
+  "plugin": ["opencode-beads"],
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama Local",
+      "options": {
+        "baseURL": "https://ollama.local:3000/ollama/v1"
+      },
+      "models": {
+        "qwen2.5-coder:7b": {
+          "name": "qwen2.5-coder:7b"
+        }
+      }
+    }
+  }
 }
