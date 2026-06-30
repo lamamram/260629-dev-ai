@@ -1,7 +1,7 @@
 ---
 description: A relentless interview to sharpen a plan or design.
 agent: plan
-model: github-copilot/claude-sonnet-4.6 
+model: opencode-code/qwen3.7-plus
 ---
 
 * begins a q&a session with the grilling skill

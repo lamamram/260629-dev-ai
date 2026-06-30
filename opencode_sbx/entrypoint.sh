@@ -2,10 +2,12 @@
 
 set -euo pipefail
 
-#if [ -f /work/.env.local ]; then
-#  echo -e "\n" | npx varlock init --agent
-#  npx varlock load --agent
-#  #npm exec -- varlock encrypt --file .env.local
-#  #rm -f /work/.env.local
-#fi
+if [ ! -d .beads ]; then
+    bd init
+fi
+
+if [ -f /work/.env.local ] && [ ! -f /work/.env.schema ]; then
+ echo -e "\n" | npx varlock init --agent
+ #echo -e "\n\n" | npx varlock encrypt --file .env.local
+fi
 exec "$@"

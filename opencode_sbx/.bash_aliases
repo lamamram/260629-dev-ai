@@ -70,4 +70,5 @@ get_val() {
 }
 
 #alias oc='11-oc-bootstrap.sh'
-alias='docker compose run --rm opencode'
+alias oc='docker compose run --rm opencode'
+alias dexoc='docker compose exec opencode'
