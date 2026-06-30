@@ -40,16 +40,16 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CN="${1:-$(hostname -f 2>/dev/null || hostname)}"
 
 SAN="DNS:${CN}"
-if [ -n "${HOST_IP:-}" ]; then
-  SAN="${SAN},IP:${HOST_IP}"
-fi
+#if [ -n "${HOST_IP:-}" ]; then
+#  SAN="${SAN},IP:${HOST_IP}"
+#fi
 
 echo "🔐 Génération du certificat auto-signé (CN=${CN}, SAN=${SAN})..."
 # MSYS2_ARG_CONV_EXCL : sous Git Bash (Windows), exclut le SEUL argument
 # "/CN=..." de la conversion en chemin Windows (sinon "/CN=..." devient
 # "C:/Program Files/Git/CN=..."). Les chemins -keyout/-out, eux, restent
 # convertis normalement. Sans effet sur Linux.
-MSYS2_ARG_CONV_EXCL="/CN=" \
+# MSYS2_ARG_CONV_EXCL="/CN=" \
 openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
   -keyout "${DIR}/open-webui.key" \
   -out    "${DIR}/open-webui.crt" \
