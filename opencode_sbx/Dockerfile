@@ -16,6 +16,10 @@ RUN update-ca-certificates
 
 USER node
 WORKDIR /home/node
+RUN mkdir /home/node/.local
+RUN mkdir /home/node/.local/bin
+RUN mkdir /home/node/.local/state
+RUN mkdir /home/node/.local/share
 ENV PATH="/home/node/.local/bin:${PATH}"
 
 # installation de beads: local issue tracker to persist oc sessions

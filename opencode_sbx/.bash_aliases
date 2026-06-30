@@ -69,4 +69,5 @@ get_val() {
   printenv | grep -E "^$1=.*" | sed -n -e 's/^$1=\(.*\)/\1/p'
 }
 
-alias oc='11-oc-bootstrap.sh'
+#alias oc='11-oc-bootstrap.sh'
+alias='docker compose run --rm opencode'
