@@ -19,7 +19,7 @@ WORKDIR /home/node
 ENV PATH="/home/node/.local/bin:${PATH}"
 
 # installation de beads: local issue tracker to persist oc sessions
-# RUN curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
+RUN curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
 
 COPY --chown=node:node .bash_profile /home/node/.bash_profile
 COPY --chown=node:node .bashrc /home/node/.bashrc
