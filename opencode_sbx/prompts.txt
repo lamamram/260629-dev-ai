@@ -1,0 +1,6 @@
+master prompts
+--------------
+
+use build agent, to:
+- @general execute /to_beads 2 , to generate a new beads issue: <issue_id>
+- @dev-nuxt execute /tdd <issue_id> with the new beads issue
