@@ -22,15 +22,67 @@ curl -fsSL https://opencode.ai/install | bash
 npm install -g opencode-ai
 ```
 
-### Initialiser un projet
+### Mise en SANDBOX de l'assistant avec docker
+
+1. Dockerfile
 
 ```bash
-cd /chemin/vers/projet
-opencode
+# points importants
+USER node
+
+RUN mkdir -p /home/node/.config/...
+RUN mkdir -p /home/node/.local/...
+
+# config vault for varlock: chiffrer les secrets
+RUN gpg2 --quick-gen-key --batch --passphrase roottoor oc@tui.lan
+RUN pass init $(gpg2 --list-keys | grep -oE "[A-F0-9]+$")
+
+ENTRYPOINT ["/bin/bash", "/work/entrypoint.sh"]
+```
+
+2. `entrypoint.sh`
+
+```bash
+# initialisations de plugins (beads, varlock, etc.)
+```
+
+3. `compose.yml`
+
+```yaml
+# min requirements:
+# pas de nouvelles capacités du root dans le conteneur
+security_opt:
+      - no-new-privileges:true
+pids_limit: 512 # <= désactive la fork bomb
+mem_limit: 8g
+cpus: 4
+# baisser des capacités du conteneur pour limiter les risques
+cap_drop:
+  - CHOWN
+  - ...
+```
+
+### isoler les secrets des fichiers d'environnement
+
+* un outil comme varlock [ici](https://varlock.dev/) permet de:
+  - transformer les fichiers d'environnement en schema: `npx varlock init --agent` => `.env.schema`
+  - valider les fichiers d'environnement: `npx varlock load --agent`
+  - :warn: chiffrer les secret en coffre numérique (gpg2 + pass): `npx varlock encrypt --file .env.local`
+  - lancer opencode avec varlock: `npx varlock run -- opencode`
+
+> le chiffrement n'est pas facilement automatisable pour le moment, il faut chiffrer de façon interactive les secrets avant de lancer opencode.
+
+> REM: on peut ne pas chiffrer, alors ce seront les permissions de l'assistant qui protègeront les secrets. Mais il est recommandé de chiffrer les secrets pour éviter qu'ils soient exposés dans le conteneur.
+
+
+### initialiser le projet avec OpenCode
+
+```bash
 /init
 ```
 
-Cela génère un fichier `AGENTS.md` à la racine — **committez-le** dans Git.
+* Cela génère un fichier `AGENTS.md` à la racine — **committez-le** dans Git.
+* < 300 lignes, contient les informations globale du projet, toujours charger dans les Prompts, quelque soit la sessions
 
 ### Structure de fichiers recommandée pour une équipe
 
