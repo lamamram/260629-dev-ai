@@ -635,6 +635,12 @@ vers l'étape suivante si la précédente est en échec.
 
 ---
 
+
+> exemple de workflow opencode avec beads / nuxt
+
+![](./workflow_nuxt_base.png)
+
+
 ## 6. Sessions partagées
 
 Le partage permet à l'équipe de consulter une conversation OpenCode via un lien public.
