@@ -257,13 +257,11 @@ metadata:
 
 ## Structure des fichiers
 
-```
 src/
 ├── components/    # Composants UI réutilisables
 ├── features/      # Fonctionnalités métier isolées
 ├── lib/           # Utilitaires partagés
 └── types/         # Types TypeScript globaux
-```
 
 ## Règles de commit
 
@@ -417,15 +415,13 @@ Stratégie :
 - Pas de tests E2E sauf demande explicite
 
 Format des tests :
-```typescript
-describe('NomDuModule', () => {
-  it('should <comportement attendu>', () => {
-    // Arrange
-    // Act
-    // Assert
-  });
-});
-```
+     describe('NomDuModule', () => {
+       it('should <comportement attendu>', () => {
+         // Arrange
+         // Act
+        // Assert
+       });
+     });
 ```
 
 ### Invocation manuelle d'un sous-agent
@@ -548,6 +544,61 @@ Invocation :
 ```
 /deploy-staging release/2.1.0
 ```
+
+#### <ins>exemple d'utilisation d'agent autonome dans un pipeline CI/CD gitlab:</ins>
+
+```yaml
+# composant gitlab (> v17): # https://gitlab.com/nagyv/gitlab-opencode
+# un composant est une "fonction yaml"  avec une header comme signature et un bloc variabilisé
+
+
+# dans le composant: 1er document yaml: interface du composant
+spec:
+  inputs:
+    config_dir:
+      type: string
+      description: "Path to the opencode configuration directory"
+
+    command:
+      type: string
+      default: ""
+      description: "The opencode command to run (e.g., 'sync-translations')"
+
+    message:
+      type: string
+      default: ""
+      description: "Message to pass to opencode (e.g., What is your name? Write me a poem about it!)"
+
+    auth_json:
+      type: string
+      description: "Path to the opencode auth.json file"
+...
+
+# deuxième document yaml du composant : le "bloc" job du composant
+$[[ inputs.job_prefix ]]:run:
+  stage: $[[ inputs.stage ]]
+  image:
+    name: $[[ inputs.image_name ]]:$[[ inputs.image_tag ]]
+    entrypoint: [""]
+  extends: $[[ inputs.extends ]]
+  before_script: $[[ inputs.before_script ]]
+....
+
+
+## dans le pipeline
+include:
+  - component: gitlab.lan.fr/formation/gitlab-opencode/opencode@main
+    # les valeurs d'appel du composant
+    inputs:
+      config_dir: ${CI_PROJECT_DIR}/.opencode
+      stage: testing
+      # variables cachées qui contient le contenu du fichier ~/.local/share/opencode/auth.json 
+      # en tant que variable "File" et non masquée
+      auth_json: $OPENCODE_AUTH_JSON
+      message: "give me your version on one word"
+
+```
+
 
 ### Composer plusieurs agents en pipeline
 
